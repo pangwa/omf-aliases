@@ -87,8 +87,8 @@ alias gg='git gui citool'
 alias gga='git gui citool --amend'
 
 function ggf
-  if [[ "$#" != 1 ]]
-    set -l b (git_current_branch)
+  if [ (count $argv) != 1 ]
+    set -l b (git_branch_name)
   else
     set -l b $1
   end
@@ -96,8 +96,8 @@ function ggf
 end
 
 function ggfl
-  if [[ "$#" != 1 ]]
-    set -l b (git_current_branch)
+  if [ (count $argv) != 1 ]
+    set -l b (git_branch_name)
   else
     set -l b $1
   end
@@ -107,11 +107,12 @@ end
 #compdef _git ggf=git-checkout
 
 function ggl
-  if [[ "$#" != 0 ]] ; and [[ "$#" != 1 ]]; then
+  set cnt (count $argv)
+  if [ $cnt != 0 ] ; and [[ $cnt != 1 ]]; then
     git pull origin $argv
   else
-    if [[ "$#" == 0 ]]
-      set -l b (git_current_branch)
+    if [ $cnt = 0 ]
+      set -l b (git_branch_name)
     else
       set -l b $1
     end
@@ -123,11 +124,12 @@ end
 #compdef _git ggl=git-checkout
 
 function ggp
-  if [[ "$#" != 0 ]]; and [[ "$#" != 1 ]]
+  set cnt (count $argv)
+  if [ $cnt != 0 ]; and [ $cnt != 1 ]
     git push origin $argv
   else
-    if [[ "$#" == 0 ]]
-      set -l b (git_current_branch)
+    if [ $cnt == 0 ]
+      set -l b (git_branch_name)
     else
       set -l b $1
     end
@@ -138,7 +140,8 @@ end
 #compdef _git ggp=git-checkout
 
 function ggpnp
-  if [[ "$#" == 0 ]]
+  set cnt (count $argv)
+  if [ $cnt == 0 ]
     ggl ; and ggp
   else
     ggl $argv ; and ggp $argv
@@ -148,8 +151,9 @@ end
 #compdef _git ggpnp=git-checkout
 
 function ggu
-  if [[ "$#" != 1 ]]
-    set -l b (git_current_branch)
+  set cnt (count $argv)
+  if [ $cnt != 1 ]
+    set -l b (git_branch_name)
   else
     set -l b $1
   end
@@ -161,14 +165,14 @@ end
 alias ggpur='ggu'
 #compdef _git ggpur=git-checkout
 
-alias ggpull='git pull origin (git_current_branch)'
+alias ggpull='git pull origin (git_branch_name)'
 #compdef _git ggpull=git-checkout
 
-alias ggpush='git push origin (git_current_branch)'
+alias ggpush='git push origin (git_branch_name)'
 #compdef _git ggpush=git-checkout
 
-alias ggsup='git branch --set-upstream-to=origin/(git_current_branch)'
-alias gpsup='git push --set-upstream origin (git_current_branch)'
+alias ggsup='git branch --set-upstream-to=origin/(git_branch_name)'
+alias gpsup='git push --set-upstream origin (git_branch_name)'
 
 alias ghh='git help'
 
